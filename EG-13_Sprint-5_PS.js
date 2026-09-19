@@ -145,3 +145,52 @@ MinStack.prototype.top = function() {
 MinStack.prototype.getMin = function() {
     return this.minStack[this.minStack.length - 1];
 };
+//09. Continuous Subarray Sum
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var checkSubarraySum = function(nums, k) {
+    const remainderIndexMap = new Map();
+    remainderIndexMap.set(0, -1);
+
+    let prefixSum = 0;
+
+    for (let i = 0; i < nums.length; i++) {
+        prefixSum += nums[i];
+        let remainder = prefixSum % k;
+
+        if (remainder < 0) remainder += k;
+
+        if (remainderIndexMap.has(remainder)) {
+            if (i - remainderIndexMap.get(remainder) >= 2) {
+                return true;
+            }
+        } else {
+            remainderIndexMap.set(remainder, i);
+        }
+    }
+
+    return false;
+};
+//10. Daily Temperatures
+/**
+ * @param {number[]} temperatures
+ * @return {number[]}
+ */
+var dailyTemperatures = function(temperatures) {
+    const n = temperatures.length;
+    const answer = new Array(n).fill(0);
+    const stack = [];
+
+    for (let i = 0; i < n; i++) {
+        while (stack.length > 0 && temperatures[i] > temperatures[stack[stack.length - 1]]) {
+            const prevIndex = stack.pop();
+            answer[prevIndex] = i - prevIndex;
+        }
+        stack.push(i);
+    }
+
+    return answer;
+};
