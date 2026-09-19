@@ -95,3 +95,53 @@ var productExceptSelf = function(nums) {
 
     return answer;
 };
+//07. Rotate Array
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void}
+ */
+var rotate = function(nums, k) {
+    const n = nums.length;
+    k = k % n;
+
+    const reverse = (start, end) => {
+        while (start < end) {
+            const temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    };
+
+    reverse(0, n - 1);
+    reverse(0, k - 1);
+    reverse(k, n - 1);
+};
+//08. Min Stack
+var MinStack = function() {
+    this.stack = [];
+    this.minStack = [];
+};
+
+MinStack.prototype.push = function(val) {
+    this.stack.push(val);
+    const currentMin = this.minStack.length === 0 ?
+        val :
+        Math.min(val, this.minStack[this.minStack.length - 1]);
+    this.minStack.push(currentMin);
+};
+
+MinStack.prototype.pop = function() {
+    this.stack.pop();
+    this.minStack.pop();
+};
+
+MinStack.prototype.top = function() {
+    return this.stack[this.stack.length - 1];
+};
+
+MinStack.prototype.getMin = function() {
+    return this.minStack[this.minStack.length - 1];
+};
