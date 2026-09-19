@@ -73,3 +73,25 @@ var maxDepth = function(root) {
     if (root === null) return 0;
     return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 };
+//06. Product of Array Except Self
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function(nums) {
+    const n = nums.length;
+    const answer = new Array(n);
+
+    answer[0] = 1;
+    for (let i = 1; i < n; i++) {
+        answer[i] = answer[i - 1] * nums[i - 1];
+    }
+
+    let suffix = 1;
+    for (let i = n - 1; i >= 0; i--) {
+        answer[i] *= suffix;
+        suffix *= nums[i];
+    }
+
+    return answer;
+};
